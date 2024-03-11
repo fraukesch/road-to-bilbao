@@ -14,6 +14,8 @@ jobs:
           curl https://final2024bilbao.com/en/buy-your-ticket | cat >> current.html
           LINES_OF_DIFF=$(diff current.html buy-your-ticket.html | wc -l)
           
+          echo $LINES_OF_DIFF
+          
           echo "lines_of_diff=$LINES_OF_DIFF" >> "$GITHUB_OUTPUT"
   notify_telegram_bot:
     runs-on: ubuntu-latest
