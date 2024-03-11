@@ -3,7 +3,7 @@ name: Check for updates on ticketing page
 on:
   workflow_dispatch:
   schedule:
-    - 0 8-22 * * *
+    - cron: 0 8-22 * * *
 
 jobs:
   check_for_update:
