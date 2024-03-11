@@ -6,10 +6,13 @@ on:
 jobs:
   check_for_update:
     runs-on: ubuntu-latest
+    outputs:
+      lines_of_diff: ${{ steps.check_diff.outputs.lines_of_diff}}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
       - name: Check diff with last stored version
+        id: check_diff
         run: |
           curl https://final2024bilbao.com/en/buy-your-ticket | cat >> current.html
           LINES_OF_DIFF=$(diff current.html buy-your-ticket.html | wc -l)
@@ -24,7 +27,7 @@ jobs:
     steps:
       - name: Notify Telegram RoadToBilbaoBot
         uses: cbrgm/telegram-github-action@v1
-        if: ${{ needs.check_for_update.lines_of_diff != '0' }}
+        if: ${{ needs.check_for_update.outputs.lines_of_diff != '0' }}
         with:
           token: ${{ secrets.TELEGRAM_TOKEN }}
           to: ${{ secrets.TELEGRAM_CHAT_ID }}
