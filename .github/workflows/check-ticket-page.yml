@@ -1,0 +1,31 @@
+name: Check for updates on ticketing page
+
+on:
+  workflow_dispatch:
+
+jobs:
+  check_for_update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Check diff with last stored version
+        run: |
+          curl https://final2024bilbao.com/en/buy-your-ticket | cat >> current.html
+          LINES_OF_DIFF=$(diff current.html buy-your-ticket.html | wc -l)
+          
+          echo "lines_of_diff=$LINES_OF_DIFF" >> "$GITHUB_OUTPUT"
+  notify_telegram_bot:
+    runs-on: ubuntu-latest
+    needs:
+      - check_for_update
+    steps:
+      - name: Notify Telegram RoadToBilbaoBot
+        uses: cbrgm/telegram-github-action@v1
+        if: ${{ needs.check_for_updates.lines_of_diff !== '0' }}
+        with:
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          to: ${{ secrets.TELEGRAM_CHAT_ID }}
+          message: |
+            Schnell Tickets kaufen!!!
+            https://final2024bilbao.com/en/buy-your-ticket
