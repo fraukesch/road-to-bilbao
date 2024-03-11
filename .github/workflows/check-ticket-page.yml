@@ -22,7 +22,7 @@ jobs:
     steps:
       - name: Notify Telegram RoadToBilbaoBot
         uses: cbrgm/telegram-github-action@v1
-        if: ${{ needs.check_for_updates.lines_of_diff !== '0' }}
+        if: ${{ needs.check_for_updates.lines_of_diff != '0' }}
         with:
           token: ${{ secrets.TELEGRAM_TOKEN }}
           to: ${{ secrets.TELEGRAM_CHAT_ID }}
