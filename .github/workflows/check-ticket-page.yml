@@ -28,16 +28,24 @@ jobs:
           
           echo "lines_of_diff=$LINES_OF_DIFF" >> "$GITHUB_OUTPUT"
   notify_telegram_bot:
-    if: ${{ needs.check_for_update.outputs.lines_of_diff != '0' }}
+    # if: ${{ needs.check_for_update.outputs.lines_of_diff != '0' }}
     runs-on: ubuntu-latest
     needs:
       - check_for_update
     steps:
-      - name: Notify Telegram RoadToBilbaoBot
+      - name: Notify Telegram RoadToBilbaoBot for Frauke
         uses: cbrgm/telegram-github-action@v1
         with:
           token: ${{ secrets.TELEGRAM_TOKEN }}
           to: ${{ secrets.TELEGRAM_CHAT_ID }}
+          message: |
+            Schnell Tickets kaufen!!!
+            https://final2024bilbao.com/en/buy-your-ticket
+      - name: Notify Telegram RoadToBilbaoBot for Ulli
+        uses: cbrgm/telegram-github-action@v1
+        with:
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          to: ${{ secrets.TELEGRAM_CHAT_ID_2 }}
           message: |
             Schnell Tickets kaufen!!!
             https://final2024bilbao.com/en/buy-your-ticket
