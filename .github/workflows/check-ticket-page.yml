@@ -28,7 +28,7 @@ jobs:
           
           echo "lines_of_diff=$LINES_OF_DIFF" >> "$GITHUB_OUTPUT"
   notify_telegram_bot:
-    # if: ${{ needs.check_for_update.outputs.lines_of_diff != '0' }}
+    if: ${{ needs.check_for_update.outputs.lines_of_diff != '0' }}
     runs-on: ubuntu-latest
     needs:
       - check_for_update
